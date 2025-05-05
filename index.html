@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Countdown To-Do App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Task Countdown</h1>
+        
+        <div class="task-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" placeholder="Enter task title">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="datetime-local" id="dueDate">
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button id="addTaskBtn">Add Task</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="taskList" class="task-list">
+            <!-- Tasks will be rendered here dynamically -->
+            <div class="no-tasks">No tasks yet. Add some tasks to get started!</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <footer>@Copyright 2025</footer>
+</body>
+</html>
