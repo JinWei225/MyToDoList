@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My To-Do List</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Task Countdown To-Do App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <div class="container">
-        <h1>My Tasks</h1>
-
-        <div class="add-task-form">
-            <input type="text" id="task-text" placeholder="Enter new task...">
-            <label for="task-due-date">Due Date (Optional):</label>
-            <input type="datetime-local" id="task-due-date">
-            <button id="add-task-btn">Add Task</button>
+        <h1>Task Countdown</h1>
+        
+        <div class="task-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" placeholder="Enter task title">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="datetime-local" id="dueDate">
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button id="addTaskBtn">Add Task</button>
+                </div>
+            </div>
         </div>
-
-        <ul id="task-list">
-            </ul>
-    </div>
-
-    <div id="subtask-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2>Add Subtask</h2>
-            <input type="hidden" id="parent-task-id">
-            <input type="text" id="subtask-text" placeholder="Enter subtask...">
-            <button id="add-subtask-confirm-btn">Add Subtask</button>
+        
+        <div id="taskList" class="task-list">
+            <!-- Tasks will be rendered here dynamically -->
+            <div class="no-tasks">No tasks yet. Add some tasks to get started!</div>
         </div>
     </div>
-
 
     <script src="script.js"></script>
 </body>
