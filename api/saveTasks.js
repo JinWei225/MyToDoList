@@ -44,6 +44,7 @@ export default async function handler(req, res) {
     const blob = await put('tasks/tasks.json', tasksJson, {
       contentType: 'application/json',
       access: 'public', // Make the blob private so only your app can access it
+      allowOverwrite: true
     });
     
     return res.status(200).json({ 
