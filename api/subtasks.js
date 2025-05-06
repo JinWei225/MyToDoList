@@ -101,6 +101,7 @@ export default async function handler(req, res) {
       const blob = await put('tasks/tasks.json', tasksJson, {
         contentType: 'application/json',
         access: 'public',
+        allowOverwrite:true
       });
       
       return res.status(201).json({ 
@@ -141,6 +142,7 @@ export default async function handler(req, res) {
       const blob = await put('tasks/tasks.json', tasksJson, {
         contentType: 'application/json',
         access: 'public',
+        allowOverwrite:true
       });
       
       return res.status(200).json({ 
@@ -171,6 +173,7 @@ export default async function handler(req, res) {
       const blob = await put('tasks/tasks.json', tasksJson, {
         contentType: 'application/json',
         access: 'public',
+        allowOverwrite:true
       });
       
       return res.status(200).json({ 
