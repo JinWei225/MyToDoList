@@ -1,13 +1,5 @@
 {
   "version": 2,
-  "functions": {
-    "api/getTasks.js": {
-      "runtime": "nodejs@18"
-    },
-    "api/saveTasks.js": {
-      "runtime": "nodejs@18"
-    }
-  },
   "routes": [
     {
       "src": "/api/getTasks",
