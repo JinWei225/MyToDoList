@@ -281,8 +281,8 @@ button:hover {
 }
 
 .subtask-checkbox {
-    margin-right: 10px;
-    flex: 0 0 auto; /* Prevent checkbox from growing/shrinking */
+    width: 10%;
+    flex: 0 0 auto;
 }
 
 .subtask-title {
