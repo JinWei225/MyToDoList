@@ -1,4 +1,6 @@
-import { list, download } from '@vercel/blob';
+// Import the correct functions for Edge Runtime
+// Note that we're using the /client imports specifically for Edge compatibility
+import { list, download } from '@vercel/blob/client';
 
 export const config = {
   runtime: 'edge',
@@ -7,7 +9,7 @@ export const config = {
 export default async function handler(req) {
   try {
     // Check if we already have a tasks file
-    const { blobs } = await list({ prefix: 'tasks/' });
+    const { blobs } = await list();
     const tasksBlob = blobs.find(blob => blob.pathname === 'tasks/tasks.json');
     
     if (tasksBlob) {

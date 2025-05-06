@@ -1,4 +1,5 @@
-import { put } from '@vercel/blob';
+// Import the correct client-side function for Edge Runtime
+import { put } from '@vercel/blob/client';
 
 export const config = {
   runtime: 'edge',
