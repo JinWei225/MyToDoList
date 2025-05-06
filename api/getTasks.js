@@ -1,5 +1,5 @@
-// Standard Node.js Serverless Function
-import { list, get } from '@vercel/blob';
+// Standard Node.js API route
+import { list } from '@vercel/blob';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -27,23 +27,20 @@ export default async function handler(req, res) {
     const tasksBlob = blobs.find(blob => blob.pathname === 'tasks/tasks.json');
     
     if (tasksBlob) {
-      // Get the tasks file content
-      const tasksBlobData = await get(tasksBlob.url);
-      
-      if (!tasksBlobData) {
-        return res.status(200).json([]);
-      }
-      
-      // Download the blob data as text
-      const tasksText = await tasksBlobData.text();
-      
       try {
-        // Parse the JSON
-        const tasks = JSON.parse(tasksText);
+        // Fetch the content using the URL directly
+        const response = await fetch(tasksBlob.url);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch tasks: ${response.status} ${response.statusText}`);
+        }
+        
+        // Parse the JSON response
+        const tasks = await response.json();
         return res.status(200).json(tasks);
-      } catch (parseError) {
-        console.error('Error parsing tasks JSON:', parseError);
-        return res.status(500).json({ error: 'Invalid tasks data format' });
+      } catch (fetchError) {
+        console.error('Error fetching or parsing tasks:', fetchError);
+        return res.status(500).json({ error: fetchError.message });
       }
     } else {
       // No tasks file exists yet
