@@ -192,14 +192,3 @@ button:hover {
         justify-content: flex-end;
     }
 }
-
-footer {
-    text-align: center; /* Center the text */
-    padding: 10px;
-    background-color: #000; /* Dark background */
-    color: white; /* Light text */
-    font-size: 14px;
-    bottom: 0;
-    width: 100%;
-  }
-  
