@@ -1,4 +1,4 @@
-// Standard Node.js API route (not Edge function)
+// Standard Node.js Serverless Function
 import { put } from '@vercel/blob';
 
 export const config = {
@@ -25,11 +25,11 @@ export default async function handler(req, res) {
     return;
   }
 
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+  
   try {
-    if (req.method !== 'POST') {
-      return res.status(405).json({ error: 'Method not allowed' });
-    }
-    
     // Get the tasks data from the request body
     const tasks = req.body;
     
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     }
     
     // Convert tasks to a JSON string
-    const tasksJson = JSON.stringify(tasks);
+    const tasksJson = JSON.stringify(tasks, null, 2); // Pretty-print for better readability
     
     // Create a blob with the tasks data
     const blob = await put('tasks/tasks.json', tasksJson, {
@@ -46,7 +46,11 @@ export default async function handler(req, res) {
       access: 'private', // Make the blob private so only your app can access it
     });
     
-    return res.status(200).json({ success: true, url: blob.url });
+    return res.status(200).json({ 
+      success: true, 
+      url: blob.url,
+      message: `Successfully saved ${tasks.length} tasks`
+    });
   } catch (error) {
     console.error('Error saving tasks to blob:', error);
     return res.status(500).json({ error: error.message });

@@ -1,11 +1,20 @@
 {
     "functions": {
-      "api/*.js": {
-        "memory": 1024,
-        "maxDuration": 10
+      "api/getTasks.js": {
+        "runtime": "nodejs18.x"
+      },
+      "api/saveTasks.js": {
+        "runtime": "nodejs18.x"
       }
     },
-    "env": {
-      "BLOB_READ_WRITE_TOKEN": "vercel_blob_rw_lKYCTSqM5uIWriTx_iX5RyvjI0Kdix97AVa7W5qH186ROD3"
-    }
-}
+    "routes": [
+      {
+        "src": "/api/getTasks",
+        "dest": "/api/getTasks.js"
+      },
+      {
+        "src": "/api/saveTasks",
+        "dest": "/api/saveTasks.js"
+      }
+    ]
+  }

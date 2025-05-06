@@ -1,4 +1,4 @@
-// Standard Node.js API route (not Edge function)
+// Standard Node.js Serverless Function
 import { list, get } from '@vercel/blob';
 
 export default async function handler(req, res) {
@@ -17,9 +17,13 @@ export default async function handler(req, res) {
     return;
   }
 
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
     // Check if we already have a tasks file
-    const { blobs } = await list();
+    const { blobs } = await list({ prefix: 'tasks/' });
     const tasksBlob = blobs.find(blob => blob.pathname === 'tasks/tasks.json');
     
     if (tasksBlob) {
@@ -32,9 +36,15 @@ export default async function handler(req, res) {
       
       // Download the blob data as text
       const tasksText = await tasksBlobData.text();
-      // Parse the JSON
-      const tasks = JSON.parse(tasksText);
-      return res.status(200).json(tasks);
+      
+      try {
+        // Parse the JSON
+        const tasks = JSON.parse(tasksText);
+        return res.status(200).json(tasks);
+      } catch (parseError) {
+        console.error('Error parsing tasks JSON:', parseError);
+        return res.status(500).json({ error: 'Invalid tasks data format' });
+      }
     } else {
       // No tasks file exists yet
       return res.status(200).json([]);
