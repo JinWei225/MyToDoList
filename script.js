@@ -13,18 +13,48 @@ dueDateInput.value = formattedDate;
 // Task array
 let tasks = [];
 
-// Load tasks from localStorage
-function loadTasks() {
-    const savedTasks = localStorage.getItem('countdown-tasks');
-    if (savedTasks) {
-        tasks = JSON.parse(savedTasks);
-        renderTasks();
+// Load tasks from server
+async function loadTasks() {
+    try {
+        const response = await fetch('/api/tasks');
+        if (response.ok) {
+            tasks = await response.json();
+            renderTasks();
+        } else {
+            console.error('Failed to load tasks', await response.text());
+        }
+    } catch (error) {
+        console.error("Error loading tasks:", error);
+        const savedTasks = localStorage.getItem('countdown-tasks');
+        if (savedTasks) {
+            tasks = JSON.parse(savedTasks);
+            renderTasks();
+        }
     }
+    
 }
 
-// Save tasks to localStorage
-function saveTasks() {
-    localStorage.setItem('countdown-tasks', JSON.stringify(tasks));
+// Save tasks to server
+async function saveTasks() {
+    try {
+        const response = await fetch('/api/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(tasks)
+        });
+        
+        if (!response.ok) {
+            console.error('Failed to save tasks:', await response.text());
+            // Fallback to localStorage if server save fails
+            localStorage.setItem('countdown-tasks', JSON.stringify(tasks));
+        }
+    } catch (error) {
+        console.error('Error saving tasks:', error);
+        // Fallback to localStorage if server is not available
+        localStorage.setItem('countdown-tasks', JSON.stringify(tasks));
+    }
 }
 
 // Generate a unique ID

@@ -1,0 +1,12 @@
+{
+    "name": "task-countdown-app",
+    "version": "1.0.0",
+    "description": "To-Do list application with countdown for task due dates",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "express":"5.1.0"
+    }
+}
