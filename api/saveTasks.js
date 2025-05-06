@@ -1,24 +1,26 @@
 import { put } from '@vercel/blob';
 
 export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
+  runtime: 'edge',
 };
 
-export default async function handler(req, res) {
+export default async function handler(req) {
   try {
     if (req.method !== 'POST') {
-      return res.status(405).json({ error: 'Method not allowed' });
+      return new Response(JSON.stringify({ error: 'Method not allowed' }), { 
+        status: 405, 
+        headers: { 'Content-Type': 'application/json' } 
+      });
     }
-    
+
     // Get the tasks data from the request body
-    const tasks = req.body;
+    const tasks = await req.json();
     
     if (!Array.isArray(tasks)) {
-      return res.status(400).json({ error: 'Invalid tasks data' });
+      return new Response(JSON.stringify({ error: 'Invalid tasks data' }), { 
+        status: 400, 
+        headers: { 'Content-Type': 'application/json' } 
+      });
     }
     
     // Convert tasks to a JSON string
@@ -30,9 +32,15 @@ export default async function handler(req, res) {
       access: 'private', // Make the blob private so only your app can access it
     });
     
-    return res.status(200).json({ success: true, url: blob.url });
+    return new Response(JSON.stringify({ success: true, url: blob.url }), { 
+      status: 200, 
+      headers: { 'Content-Type': 'application/json' } 
+    });
   } catch (error) {
     console.error('Error saving tasks to blob:', error);
-    return res.status(500).json({ error: error.message });
+    return new Response(JSON.stringify({ error: error.message }), { 
+      status: 500, 
+      headers: { 'Content-Type': 'application/json' } 
+    });
   }
 }

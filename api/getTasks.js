@@ -1,6 +1,10 @@
-import { list, get } from '@vercel/blob';
+import { list, download } from '@vercel/blob';
 
-export default async function handler(req, res) {
+export const config = {
+  runtime: 'edge',
+};
+
+export default async function handler(req) {
   try {
     // Check if we already have a tasks file
     const { blobs } = await list({ prefix: 'tasks/' });
@@ -8,21 +12,34 @@ export default async function handler(req, res) {
     
     if (tasksBlob) {
       // Get the tasks file
-      const tasksBlobData = await get(tasksBlob.url);
+      const data = await download(tasksBlob.url);
       
-      if (!tasksBlobData) {
-        return res.status(404).json([]);
+      if (!data) {
+        return new Response(JSON.stringify([]), { 
+          status: 200, 
+          headers: { 'Content-Type': 'application/json' } 
+        });
       }
+
+      // Parse JSON data
+      const text = await data.text();
       
-      // Read the blob data
-      const tasks = await tasksBlobData.json();
-      return res.status(200).json(tasks);
+      return new Response(text, { 
+        status: 200, 
+        headers: { 'Content-Type': 'application/json' } 
+      });
     } else {
       // No tasks file exists yet
-      return res.status(200).json([]);
+      return new Response(JSON.stringify([]), { 
+        status: 200, 
+        headers: { 'Content-Type': 'application/json' } 
+      });
     }
   } catch (error) {
     console.error('Error getting tasks from blob:', error);
-    return res.status(500).json({ error: error.message });
+    return new Response(JSON.stringify({ error: error.message }), { 
+      status: 500, 
+      headers: { 'Content-Type': 'application/json' } 
+    });
   }
 }
