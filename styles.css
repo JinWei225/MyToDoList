@@ -323,7 +323,7 @@ button:hover {
 }
 
 #subtaskTitle {
-    width: 70%;
+    width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -336,7 +336,6 @@ button:hover {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 5px;
 }
 
 #addSubtaskBtn:hover {
