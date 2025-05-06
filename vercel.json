@@ -1,20 +1,21 @@
 {
-    "functions": {
-      "api/getTasks.js": {
-        "runtime": "nodejs18.0.0"
-      },
-      "api/saveTasks.js": {
-        "runtime": "nodejs18.0.0"
-      }
+  "version": 2,
+  "functions": {
+    "api/getTasks.js": {
+      "runtime": "nodejs@18"
     },
-    "routes": [
-      {
-        "src": "/api/getTasks",
-        "dest": "/api/getTasks.js"
-      },
-      {
-        "src": "/api/saveTasks",
-        "dest": "/api/saveTasks.js"
-      }
-    ]
-  }
+    "api/saveTasks.js": {
+      "runtime": "nodejs@18"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/getTasks",
+      "dest": "/api/getTasks.js"
+    },
+    {
+      "src": "/api/saveTasks",
+      "dest": "/api/saveTasks.js"
+    }
+  ]
+}
