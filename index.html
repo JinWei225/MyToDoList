@@ -38,6 +38,29 @@
         <!-- Your existing form elements -->
         <div id="statusMessage" class="status-message"></div>
     </div>
+
+    <!-- Subtask Modal -->
+    <div id="subtaskModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Manage Subtasks</h2>
+            <div class="subtask-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="subtaskTitle" placeholder="Enter subtask title">
+                        <button id="addSubtaskBtn">Add Subtask</button>
+                    </div>
+                </div>
+            </div>
+            <div id="subtaskList" class="subtask-list">
+                <!-- Subtasks will be rendered here dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button id="closeSubtaskModal">Close</button>
+            </div>
+        </div>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>

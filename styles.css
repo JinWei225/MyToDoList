@@ -224,3 +224,143 @@ button:hover {
     color: #b71c1c;
     border: 1px solid #ffcdd2;
 }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 500px;
+}
+
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: #555;
+}
+
+.modal-footer {
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* Subtask styles */
+.subtask-list {
+    margin-top: 15px;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.subtask-item:last-child {
+    border-bottom: none;
+}
+
+.subtask-checkbox {
+    margin-right: 10px;
+}
+
+.subtask-title {
+    flex-grow: 1;
+}
+
+.subtask-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.subtask-completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Add subtask button in task card */
+.btn-subtasks {
+    background-color: #6c5ce7;
+    color: white;
+}
+
+.btn-subtasks:hover {
+    background-color: #5549c0;
+}
+
+/* Subtask count badge */
+.subtask-count {
+    font-size: 0.8em;
+    background-color: #6c5ce7;
+    color: white;
+    border-radius: 10px;
+    padding: 2px 6px;
+    margin-left: 5px;
+}
+
+.subtask-form {
+    margin-bottom: 15px;
+}
+
+#subtaskTitle {
+    width: 70%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#addSubtaskBtn {
+    padding: 8px 12px;
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+#addSubtaskBtn:hover {
+    background-color: #5549c0;
+}
+
+/* Status message for subtasks */
+.subtask-status {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.subtask-status.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.subtask-status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.subtask-status.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
