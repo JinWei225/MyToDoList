@@ -1,16 +1,17 @@
 {
-    "name": "task-countdown-app",
+    "name": "vercel-todo-app",
     "version": "1.0.0",
-    "description": "To-Do list application with countdown for task due dates",
-    "main": "server.js",
+    "description": "A simple To-Do list app with subtasks and countdowns, deployed on Vercel.",
+    "main": "index.js",
     "scripts": {
-        "start": "node server.js",
-        "dev": "node server.js"
+      "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "dependencies": {
-        "express":"5.1.0"
-    },
-    "engines": {
-        "node": ">=14.0.0"
-    }
-}
+    "keywords": [
+      "todo",
+      "vercel",
+      "javascript",
+      "serverless"
+    ],
+    "author": "JinWei225",
+    "license": "ISC"
+  }
