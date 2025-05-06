@@ -1,47 +1,46 @@
-// Import the correct functions for Edge Runtime
-// Note that we're using the /client imports specifically for Edge compatibility
-import { list, download } from '@vercel/blob/client';
+// Standard Node.js API route (not Edge function)
+import { list, get } from '@vercel/blob';
 
-export const config = {
-  runtime: 'edge',
-};
+export default async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-export default async function handler(req) {
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   try {
     // Check if we already have a tasks file
     const { blobs } = await list();
     const tasksBlob = blobs.find(blob => blob.pathname === 'tasks/tasks.json');
     
     if (tasksBlob) {
-      // Get the tasks file
-      const data = await download(tasksBlob.url);
+      // Get the tasks file content
+      const tasksBlobData = await get(tasksBlob.url);
       
-      if (!data) {
-        return new Response(JSON.stringify([]), { 
-          status: 200, 
-          headers: { 'Content-Type': 'application/json' } 
-        });
+      if (!tasksBlobData) {
+        return res.status(200).json([]);
       }
-
-      // Parse JSON data
-      const text = await data.text();
       
-      return new Response(text, { 
-        status: 200, 
-        headers: { 'Content-Type': 'application/json' } 
-      });
+      // Download the blob data as text
+      const tasksText = await tasksBlobData.text();
+      // Parse the JSON
+      const tasks = JSON.parse(tasksText);
+      return res.status(200).json(tasks);
     } else {
       // No tasks file exists yet
-      return new Response(JSON.stringify([]), { 
-        status: 200, 
-        headers: { 'Content-Type': 'application/json' } 
-      });
+      return res.status(200).json([]);
     }
   } catch (error) {
     console.error('Error getting tasks from blob:', error);
-    return new Response(JSON.stringify({ error: error.message }), { 
-      status: 500, 
-      headers: { 'Content-Type': 'application/json' } 
-    });
+    return res.status(500).json({ error: error.message });
   }
 }

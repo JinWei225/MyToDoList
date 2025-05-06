@@ -1,27 +1,40 @@
-// Import the correct client-side function for Edge Runtime
-import { put } from '@vercel/blob/client';
+// Standard Node.js API route (not Edge function)
+import { put } from '@vercel/blob';
 
 export const config = {
-  runtime: 'edge',
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+  },
 };
 
-export default async function handler(req) {
+export default async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
+
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   try {
     if (req.method !== 'POST') {
-      return new Response(JSON.stringify({ error: 'Method not allowed' }), { 
-        status: 405, 
-        headers: { 'Content-Type': 'application/json' } 
-      });
+      return res.status(405).json({ error: 'Method not allowed' });
     }
-
+    
     // Get the tasks data from the request body
-    const tasks = await req.json();
+    const tasks = req.body;
     
     if (!Array.isArray(tasks)) {
-      return new Response(JSON.stringify({ error: 'Invalid tasks data' }), { 
-        status: 400, 
-        headers: { 'Content-Type': 'application/json' } 
-      });
+      return res.status(400).json({ error: 'Invalid tasks data' });
     }
     
     // Convert tasks to a JSON string
@@ -33,15 +46,9 @@ export default async function handler(req) {
       access: 'private', // Make the blob private so only your app can access it
     });
     
-    return new Response(JSON.stringify({ success: true, url: blob.url }), { 
-      status: 200, 
-      headers: { 'Content-Type': 'application/json' } 
-    });
+    return res.status(200).json({ success: true, url: blob.url });
   } catch (error) {
     console.error('Error saving tasks to blob:', error);
-    return new Response(JSON.stringify({ error: error.message }), { 
-      status: 500, 
-      headers: { 'Content-Type': 'application/json' } 
-    });
+    return res.status(500).json({ error: error.message });
   }
 }
