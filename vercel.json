@@ -1,10 +1,10 @@
 {
     "functions": {
       "api/getTasks.js": {
-        "runtime": "nodejs18.x"
+        "runtime": "nodejs18.0.0"
       },
       "api/saveTasks.js": {
-        "runtime": "nodejs18.x"
+        "runtime": "nodejs18.0.0"
       }
     },
     "routes": [
