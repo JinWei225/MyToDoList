@@ -8,6 +8,10 @@
     {
       "src": "/api/saveTasks",
       "dest": "/api/saveTasks.js"
+    },
+    {
+      "src": "/api/subtasks",
+      "dest": "/api/subtasks.js"
     }
   ]
 }

@@ -21,6 +21,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Get specific task by ID if taskId is provided
+  const taskId = req.query.taskId;
+
   try {
     // Check if we already have a tasks file
     const { blobs } = await list({ prefix: 'tasks/' });
@@ -37,6 +40,17 @@ export default async function handler(req, res) {
         
         // Parse the JSON response
         const tasks = await response.json();
+        
+        // If a specific taskId is requested, return only that task
+        if (taskId) {
+          const task = tasks.find(task => task.id === taskId);
+          if (task) {
+            return res.status(200).json(task);
+          } else {
+            return res.status(404).json({ error: `Task with ID ${taskId} not found` });
+          }
+        }
+        
         return res.status(200).json(tasks);
       } catch (fetchError) {
         console.error('Error fetching or parsing tasks:', fetchError);
