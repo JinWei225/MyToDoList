@@ -434,7 +434,8 @@ async function toggleSubtaskComplete(subtaskId) {
             renderSubtasks(tasks[taskIndex].subtasks);
             renderTasks();
         } else {
-            const errorData = await response.json();
+            // Try to get error details from response
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
             showSubtaskStatus(`Error: ${errorData.error}`, 'error');
             
             // Revert checkbox state
@@ -457,8 +458,8 @@ async function deleteSubtask(subtaskId) {
     if (!currentTaskId) return;
     
     try {
-        // Delete via API
-        const response = await fetch(`/api/saveTasks?taskId=${currentTaskId}&subtaskId=${subtaskId}`, {
+        // Delete via API - FIXED: using the correct API endpoint
+        const response = await fetch(`/api/subtasks?taskId=${currentTaskId}&subtaskId=${subtaskId}`, {
             method: 'DELETE'
         });
         
@@ -475,7 +476,7 @@ async function deleteSubtask(subtaskId) {
                 showSubtaskStatus('Subtask deleted', 'success');
             }
         } else {
-            const errorData = await response.json();
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
             showSubtaskStatus(`Error: ${errorData.error}`, 'error');
         }
     } catch (error) {
