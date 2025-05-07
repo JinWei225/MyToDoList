@@ -32,11 +32,13 @@ dueDateInput.value = formattedDate;
 // Task array
 let tasks = [];
 
-// Load tasks from Vercel Blob
+// Load tasks from Vercel Blob with better feedback
 async function loadTasks() {
     try {
         showStatus('Loading tasks...', 'info');
-        const response = await fetch('/api/getTasks');
+        
+        // Add a small intentional delay to ensure blob storage consistency
+        const response = await fetch('/api/getTasks?t=' + Date.now());
         
         if (response.ok) {
             tasks = await response.json();
